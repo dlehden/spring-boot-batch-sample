@@ -1,5 +1,7 @@
 package com.gogo.config;
 
+import javax.sql.DataSource;
+
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
@@ -9,17 +11,23 @@ import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Component;
 
 import com.gogo.listener.JobCompletionListener;
-import com.gogo.step.Processor;
+import com.gogo.model.LinerSchedule;
 import com.gogo.step.Reader;
 import com.gogo.step.Writer;
 
 @Configuration
+@EnableJpaRepositories
+
 public class BatchConfig {
 	
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
+	@Autowired
+	private DataSource dataSource;
 	
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
@@ -33,8 +41,9 @@ public class BatchConfig {
 	
 	@Bean
 	public Step orderStep1() {
-			return stepBuilderFactory.get("orderStep1").<String,String>chunk(1)
-				      .reader(new Reader()).processor(new Processor())
+			return stepBuilderFactory.get("orderStep1").<LinerSchedule,LinerSchedule>chunk(1)
+				    //  .reader(new Reader()).processor(new Processor())
+				      .reader(new Reader())
 				      .writer(new Writer()).build();
 	}
 	
