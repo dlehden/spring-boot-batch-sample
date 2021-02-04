@@ -20,15 +20,12 @@ import com.gogo.step.Reader;
 import com.gogo.step.Writer;
 
 @Configuration
-@EnableJpaRepositories
-
+@EnableJpaRepositories(basePackages = "com.gogo.repository") 
 public class BatchConfig {
 	
 	@Autowired
 	public JobBuilderFactory jobBuilderFactory;
-	@Autowired
-	private DataSource dataSource;
-	
+
 	@Autowired
 	public StepBuilderFactory stepBuilderFactory;
 	

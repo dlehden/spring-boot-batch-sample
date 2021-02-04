@@ -9,13 +9,19 @@ import org.springframework.stereotype.Component;
 import com.gogo.model.LinerSchedule;
 import com.gogo.repository.LinerScheduleRepository;
 
-@Component
+
 public class Writer implements ItemWriter<LinerSchedule>{
 	
-	@Autowired
+	
 	 //LinerScheduleService linerScheduleService;
-	 LinerScheduleRepository linerScheduleRepository;
+	@Autowired
+	 private LinerScheduleRepository linerScheduleRepository;
+	 
+//	public void Wirter(LinerScheduleRepository linerScheduleRepository) {
+//		this.linerScheduleRepository = linerScheduleRepository;
+//	}
 
+	 @Override
 	public void write(List<? extends LinerSchedule>  linerschedule) throws Exception {
 		//for(LinerSchedule msg : messages) {
 			LinerSchedule liner = new LinerSchedule
@@ -28,8 +34,12 @@ public class Writer implements ItemWriter<LinerSchedule>{
 					 linerschedule.get(0).getRemark());
 	
 			//linerScheduleService.save(liner);
+			System.out.println(liner);
 			linerScheduleRepository.save(liner);
+			System.out.println("실행");
+			System.out.println(linerScheduleRepository.findAll());
 			System.out.println("Writing the data" + linerschedule.get(0).getLinercode());
+			
 	//	}
 	}
 
