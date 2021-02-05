@@ -9,36 +9,24 @@ import org.springframework.stereotype.Component;
 import com.gogo.model.LinerSchedule;
 import com.gogo.repository.LinerScheduleRepository;
 
-
+@Component
 public class Writer implements ItemWriter<LinerSchedule>{
 	
-	
-	 //LinerScheduleService linerScheduleService;
-	@Autowired
 	 private LinerScheduleRepository linerScheduleRepository;
-	 
-//	public void Wirter(LinerScheduleRepository linerScheduleRepository) {
-//		this.linerScheduleRepository = linerScheduleRepository;
-//	}
-
-	 @Override
-	public void write(List<? extends LinerSchedule>  linerschedule) throws Exception {
-		//for(LinerSchedule msg : messages) {
-			LinerSchedule liner = new LinerSchedule
-					(linerschedule.get(0).getLinercode(),
-					 linerschedule.get(0).getVesselname(),
-					 linerschedule.get(0).getPod(),
-					 linerschedule.get(0).getPol(),
-					 linerschedule.get(0).getEtd(),
-					 linerschedule.get(0).getEta(),
-					 linerschedule.get(0).getRemark());
+	@Autowired
+	public  Writer(LinerScheduleRepository linerScheduleRepository) {
+		this.linerScheduleRepository = linerScheduleRepository;
+	}
 	
-			//linerScheduleService.save(liner);
-			System.out.println(liner);
+	
+	@Override
+	public void write(List<? extends LinerSchedule>  linerschedule) throws Exception {
+		linerschedule.forEach(liner->{
+			//System.out.println(liner.getLinercode());
 			linerScheduleRepository.save(liner);
-			System.out.println("실행");
-			System.out.println(linerScheduleRepository.findAll());
-			System.out.println("Writing the data" + linerschedule.get(0).getLinercode());
+			//System.out.println(linerScheduleRepository.findAll());
+		});
+		
 			
 	//	}
 	}
