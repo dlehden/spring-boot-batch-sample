@@ -1,1 +1,6 @@
-test sample 
+spring batch 를 이용한
+선사 크롤링 샘플
+
+reader -> 크롤링 read
+Processor -> read 한 스케줄 데이터 비교 (작업중)
+writer ->jpa insert
