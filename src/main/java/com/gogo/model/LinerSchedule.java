@@ -12,6 +12,9 @@ import javax.persistence.Table;
 @IdClass(LinerScheduleId.class)
 public class LinerSchedule {
 	@Id
+	@Column(name="month")
+	private String month;
+	@Id
 	@Column(name="liner_code")
 	private String linercode;
 	@Id
@@ -27,7 +30,8 @@ public class LinerSchedule {
 		
 	}
 	
-	public LinerSchedule(String linercode,String vesselname,String pol, String pod, String etd, String eta, String remark) {
+	public LinerSchedule(String month,String linercode,String vesselname,String pol, String pod, String etd, String eta, String remark) {
+		this.month = month;
 		this.linercode = linercode;
 		this.vesselname = vesselname;
 		this.pol = pol;
@@ -78,7 +82,12 @@ public class LinerSchedule {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
-	 
+	public String getMonth() {
+		return month;
+	}
+	public void setMonth(String month) {
+		this.month = month;
+	}
  
 
 

@@ -21,9 +21,11 @@ public class Writer implements ItemWriter<LinerSchedule>{
 	
 	@Override
 	public void write(List<? extends LinerSchedule>  linerschedule) throws Exception {
+	
 		linerschedule.forEach(liner->{
 			//System.out.println(liner.getLinercode());
-			linerScheduleRepository.save(liner);
+			//System.out.println("writer--------------");
+			//linerScheduleRepository.save(liner);
 			//System.out.println(linerScheduleRepository.findAll());
 		});
 		

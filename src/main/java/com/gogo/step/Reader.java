@@ -1,39 +1,52 @@
 package com.gogo.step;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.batch.item.ItemReader;
 
 import com.gogo.model.LinerSchedule;
+import com.gogo.service.LinerScheduleService;
 
 public class Reader implements ItemReader<LinerSchedule> {
 
-	private String[] messages = {"test1", "test2","test3"};
-	Map<String,LinerSchedule> liner = new HashMap<>();
+	private LinerScheduleService linerScheduleService;
+	
+	public Reader(LinerScheduleService linerScheduleService) {
+		this.linerScheduleService = linerScheduleService;
+	}
+	
+	
+	List<LinerSchedule> scheduleData = new ArrayList<>();
+
 	LinerSchedule linerschedule  = new LinerSchedule("abc","name","krpus","hkhkg","2021-02-04","2021-02-04","remar");
+	//LinerSchedule linerschedule2 = new LinerSchedule("abc1","name","krpus","hkhkg","2021-02-04","2021-02-04","remar");
 
 	private  int count = 0;
-	
+
 	@Override
 	public LinerSchedule read() throws Exception{
-		if(count  < messages.length) {
-			if(count==1) {
-				linerschedule  = new LinerSchedule("abc1","name","krpus","hkhkg","2021-02-04","2021-02-04","remar");
-			}
-			if(count==2) {
-				linerschedule  = new LinerSchedule("abc2","name","krpus","hkhkg","2021-02-04","2021-02-04","remar");
-			}
+		scheduleData = linerScheduleService.TestCrawling();
+		if(count<scheduleData.size()) {
+			//System.out.println(scheduleData.get(count).getLinercode());
 			
-			count++;
+			linerschedule = new LinerSchedule
+					(scheduleData.get(count).getLinercode(),
+					 scheduleData.get(count).getVesselname(),
+					 scheduleData.get(count).getPol(),
+					 scheduleData.get(count).getPod(),
+					 scheduleData.get(count).getEtd(),
+					 scheduleData.get(count).getEta(),
+					 scheduleData.get(count).getRemark());
+			count++;		 
 			return linerschedule;
+			
 		}else {
-			count = 0;
+			count=0;
 		}
-			return null;
-		
-		//if(linerschedule.toString().length())
-		
+
+		return null;
+
 		
 	}
 	
