@@ -19,7 +19,7 @@ public class Reader implements ItemReader<LinerSchedule> {
 	
 	List<LinerSchedule> scheduleData = new ArrayList<>();
 
-	LinerSchedule linerschedule  = new LinerSchedule("abc","name","krpus","hkhkg","2021-02-04","2021-02-04","remar");
+	LinerSchedule linerschedule  = new LinerSchedule("2","abc","name","krpus","hkhkg","2021-02-04","2021-02-04","remar");
 	//LinerSchedule linerschedule2 = new LinerSchedule("abc1","name","krpus","hkhkg","2021-02-04","2021-02-04","remar");
 
 	private  int count = 0;
@@ -31,7 +31,8 @@ public class Reader implements ItemReader<LinerSchedule> {
 			//System.out.println(scheduleData.get(count).getLinercode());
 			
 			linerschedule = new LinerSchedule
-					(scheduleData.get(count).getLinercode(),
+					(scheduleData.get(count).getMonth(),
+					 scheduleData.get(count).getLinercode(),
 					 scheduleData.get(count).getVesselname(),
 					 scheduleData.get(count).getPol(),
 					 scheduleData.get(count).getPod(),
