@@ -16,6 +16,7 @@ import com.gogo.listener.JobCompletionListener;
 import com.gogo.model.LinerSchedule;
 import com.gogo.repository.LinerScheduleRepository;
 import com.gogo.service.LinerScheduleService;
+import com.gogo.step.Processor;
 import com.gogo.step.Reader;
 import com.gogo.step.Writer;
 
@@ -47,24 +48,18 @@ public class BatchConfig {
 								    .listener(listener())
 								    .flow(CrawlingStep1()).end().build();
 	}
-	
-//	@Bean
-//	public Job processJob2() {
-//			return jobBuilderFactory.get("processJob2")
-//								    .incrementer(new RunIdIncrementer())
-//								  //  .repository(jobRepository)
-//								    .listener(listener())
-//								    .flow(CrawlingStep1()).end().build();
-//	}
+
 	
 	@Bean
 	public Step CrawlingStep1() {
 			return stepBuilderFactory.get("CrawlingStep1")
 					//  .repository(jobRepository)
 					.<LinerSchedule,LinerSchedule>chunk(100)
-				    //  .reader(new Reader()).processor(new Processor())
+				    //  .reader(new Reader())
 				      .reader(new Reader(linerScheduleService))
-				      .writer(new Writer(linerScheduleRepository)).build();
+				      .processor(new Processor())
+				      .writer(new Writer(linerScheduleRepository))
+				      .build();
 	}
 	
 	@Bean

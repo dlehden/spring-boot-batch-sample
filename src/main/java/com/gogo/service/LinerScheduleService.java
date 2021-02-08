@@ -16,6 +16,7 @@ import com.gogo.model.LinerSchedule;
 @Service
 public class LinerScheduleService {
 	
+	
 	public List<LinerSchedule>  TestCrawling() {
 		String url = "http://www.cgv.co.kr/movies/";
 		Document doc = null;
@@ -34,7 +35,6 @@ public class LinerScheduleService {
 		while(ie1.hasNext()) {
 			text = ie1.next().text();
 			text2 = ie2.next().text();
-
 			scheduleData.add(new LinerSchedule("2",text,"77","T2","T2","2021-02-03","2021-02-03","remark"));
 			//System.out.println(scheduleData.get(0)  + "AAAAAAAAAAAAA");
 		}
