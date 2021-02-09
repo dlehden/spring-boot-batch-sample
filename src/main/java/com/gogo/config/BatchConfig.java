@@ -10,8 +10,6 @@ import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.stereotype.Component;
 
 import com.gogo.listener.JobCompletionListener;
 import com.gogo.model.LinerSchedule;
@@ -19,6 +17,7 @@ import com.gogo.repository.LinerScheduleRepository;
 import com.gogo.service.LinerScheduleService;
 import com.gogo.step.Processor;
 import com.gogo.step.Reader;
+import com.gogo.step.Reader2;
 import com.gogo.step.Writer;
 
 @Configuration
@@ -43,6 +42,7 @@ public class BatchConfig {
 
 	@Bean
 	public Job processJob() {
+		System.out.println("---------------------job1실행");
 			return jobBuilderFactory.get("processJob")
 								    .incrementer(new RunIdIncrementer())
 								  //  .repository(jobRepository)
@@ -52,12 +52,34 @@ public class BatchConfig {
 
 	
 	@Bean
+	public Job processJob2() {
+		System.out.println("-----------------job2실행");
+			return jobBuilderFactory.get("processJob")
+								    .incrementer(new RunIdIncrementer())
+								  //  .repository(jobRepository)
+								    .listener(listener())
+								    .flow(CrawlingStep2()).end().build();
+	}
+
+	@Bean
 	public Step CrawlingStep1() {
 			return stepBuilderFactory.get("CrawlingStep1")
 					//  .repository(jobRepository)
 					.<LinerSchedule,LinerSchedule>chunk(100)
 				    //  .reader(new Reader())
 				      .reader(new Reader(linerScheduleService))
+				      .processor(new Processor(linerScheduleRepository))
+				      .writer(new Writer(linerScheduleRepository))
+				      .build();
+	}
+	
+	@Bean
+	public Step CrawlingStep2() {
+			return stepBuilderFactory.get("CrawlingStep2")
+					//  .repository(jobRepository)
+					.<LinerSchedule,LinerSchedule>chunk(100)
+				    //  .reader(new Reader())
+				      .reader(new Reader2(linerScheduleService))
 				      .processor(new Processor(linerScheduleRepository))
 				      .writer(new Writer(linerScheduleRepository))
 				      .build();

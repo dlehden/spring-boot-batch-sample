@@ -33,7 +33,7 @@ public class HelloController {
 	@ResponseBody
 	public List<LinerSchedule> crawl() {
 		
-		return linerScheduleService.TestCrawling();
+		return linerScheduleRepository.findAll();
 	}
 	
 	
