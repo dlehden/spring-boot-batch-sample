@@ -18,25 +18,31 @@ public class LinerScheduleService {
 	
 	
 	public List<LinerSchedule>  TestCrawling() {
-		String url = "http://www.cgv.co.kr/movies/";
-		Document doc = null;
-		String text = "";
-		String text2 = "";
+//		String url = "http://www.cgv.co.kr/movies/";
+//		Document doc = null;
+//		String text = "";
+//		String text2 = "";
+//		List<LinerSchedule> scheduleData = new ArrayList<>();
+//		try {
+//			doc = Jsoup.connect(url).get();
+//		}catch(IOException e) {
+//			e.printStackTrace();
+//		}
+//		
+//		Elements element = doc.select("div.sect-movie-chart");
+//		Iterator<Element> ie1 = element.select("strong.rank").iterator();
+//		Iterator<Element> ie2 = element.select("strong.title").iterator();
+//		while(ie1.hasNext()) {
+//			text = ie1.next().text();
+//			text2 = ie2.next().text();
+//			scheduleData.add(new LinerSchedule("2",text,"77","T2","T2","2021-02-03","2021-02-03","remark"));
+//			//System.out.println(scheduleData.get(0)  + "AAAAAAAAAAAAA");
+//		}
+//		
 		List<LinerSchedule> scheduleData = new ArrayList<>();
-		try {
-			doc = Jsoup.connect(url).get();
-		}catch(IOException e) {
-			e.printStackTrace();
-		}
+		for(int i=0 ; i< 10000 ; i ++) {
 		
-		Elements element = doc.select("div.sect-movie-chart");
-		Iterator<Element> ie1 = element.select("strong.rank").iterator();
-		Iterator<Element> ie2 = element.select("strong.title").iterator();
-		while(ie1.hasNext()) {
-			text = ie1.next().text();
-			text2 = ie2.next().text();
-			scheduleData.add(new LinerSchedule("2",text,"77","T2","T2","2021-02-03","2021-02-03","remark"));
-			//System.out.println(scheduleData.get(0)  + "AAAAAAAAAAAAA");
+		scheduleData.add(new LinerSchedule("2",Integer.toString(i),"77","T2","T2","2021-02-03","2021-02-03","remark"));
 		}
 		return scheduleData;
 	}

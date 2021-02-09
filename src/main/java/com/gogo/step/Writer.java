@@ -23,9 +23,9 @@ public class Writer implements ItemWriter<LinerSchedule>{
 	public void write(List<? extends LinerSchedule>  linerschedule) throws Exception {
 	
 		linerschedule.forEach(liner->{
-			 System.out.println(liner.getRemark());
-			 System.out.println("writer--------------");
-			//linerScheduleRepository.save(liner);
+			 //System.out.println(liner.getRemark());
+			// System.out.println("writer--------------");
+			linerScheduleRepository.save(liner);
 			//System.out.println(linerScheduleRepository.findAll());
 		});
 		

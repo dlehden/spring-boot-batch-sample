@@ -5,6 +5,7 @@ import org.springframework.stereotype.Repository;
 
 import com.gogo.model.LinerSchedule;
 
-@Repository
-public interface LinerScheduleRepository extends JpaRepository<LinerSchedule, Integer>{
+@Repository("LinerScheduleRepository")
+public interface LinerScheduleRepository extends JpaRepository<LinerSchedule, Long>{
+	LinerSchedule findByLinercodeAndVesselname(String linercode,String vesselname);
 }

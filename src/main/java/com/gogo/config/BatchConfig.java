@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
+import org.springframework.stereotype.Component;
 
 import com.gogo.listener.JobCompletionListener;
 import com.gogo.model.LinerSchedule;
@@ -21,7 +22,7 @@ import com.gogo.step.Reader;
 import com.gogo.step.Writer;
 
 @Configuration
-@EnableJpaRepositories(basePackages = "com.gogo.repository") 
+//@EnableJpaRepositories(basePackages = "com.gogo.repository") 
 public class BatchConfig {
 	
 	@Autowired
@@ -57,7 +58,7 @@ public class BatchConfig {
 					.<LinerSchedule,LinerSchedule>chunk(100)
 				    //  .reader(new Reader())
 				      .reader(new Reader(linerScheduleService))
-				      .processor(new Processor())
+				      .processor(new Processor(linerScheduleRepository))
 				      .writer(new Writer(linerScheduleRepository))
 				      .build();
 	}
