@@ -17,9 +17,10 @@ public class Processor implements ItemProcessor<LinerSchedule, LinerSchedule>{
 	@Override
 	public LinerSchedule process(LinerSchedule data) throws Exception{
 		
+		
 		//System.out.println("process--------");
-		System.out.println(linerScheduleRepository.findByLinercodeAndVesselname(
-				data.getLinercode(), data.getVesselname()).getEtd());
+//		System.out.println(linerScheduleRepository.findByLinercodeAndVesselname(
+//				data.getLinercode(), data.getVesselname()).getEtd());
 		if(data.getLinercode().equals("No.5")) {
 			data.setRemark("uptatd2222");
 		}
