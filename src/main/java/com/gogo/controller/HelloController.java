@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.gogo.model.LinerSchedule;
 import com.gogo.repository.LinerScheduleRepository;
+import com.gogo.service.LinerOneService;
 import com.gogo.service.LinerScheduleService;
 @RestController
 public class HelloController {
@@ -17,6 +18,9 @@ public class HelloController {
 	
 	@Autowired
 	private LinerScheduleService linerScheduleService;
+	
+	@Autowired
+	private LinerOneService linerOneService;
 	
 	@GetMapping("/save")
 	public String index() {
@@ -32,6 +36,8 @@ public class HelloController {
 	@GetMapping("/crawltest")
 	@ResponseBody
 	public List<LinerSchedule> crawl() {
+		
+		linerOneService.CheckingLiner2(null, null, null);
 		
 		return linerScheduleRepository.findAll();
 	}

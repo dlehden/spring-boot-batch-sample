@@ -40,7 +40,7 @@ public class LinerScheduleService {
 //		}
 //		
 		List<LinerSchedule> scheduleData = new ArrayList<>();
-		for(int i=0 ; i< 3 ; i ++) {
+		for(int i=0 ; i< 1000 ; i ++) {
 		
 		scheduleData.add(new LinerSchedule("2","PAN","202"+Integer.toString(i),"T2","T2","2021-02-03","2021-02-03","remark"));
 		}

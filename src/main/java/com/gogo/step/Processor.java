@@ -1,5 +1,7 @@
 package com.gogo.step;
 
+import java.util.Optional;
+
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -17,14 +19,17 @@ public class Processor implements ItemProcessor<LinerSchedule, LinerSchedule>{
 	@Override
 	public LinerSchedule process(LinerSchedule data) throws Exception{
 		
-		
+		Optional<LinerSchedule> LinerProcess  = Optional.ofNullable(linerScheduleRepository.findByLinercodeAndVesselname(
+				data.getLinercode(), data.getVesselname()));
+	
 		//System.out.println("process--------");
-//		System.out.println(linerScheduleRepository.findByLinercodeAndVesselname(
-//				data.getLinercode(), data.getVesselname()).getEtd());
-		if(data.getLinercode().equals("No.5")) {
-			data.setRemark("uptatd2222");
-		}
-		
+		LinerProcess.ifPresent(liner-> {
+			System.out.println(liner.getEtd());
+		});
+//		if(data.getLinercode().equals("No.5")) {
+//			data.setRemark("uptatd2222");
+//		}
+//		
 		return data;
 	}
 
