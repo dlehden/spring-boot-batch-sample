@@ -39,6 +39,8 @@ public class HelloController {
 		
 		linerOneService.CheckingLiner2(null, null, null);
 		
+		//linerOneService.CheckingLiner(null, null, null);
+		
 		return linerScheduleRepository.findAll();
 	}
 	
