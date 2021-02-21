@@ -11,6 +11,7 @@ import com.gogo.model.LinerSchedule;
 import com.gogo.repository.LinerScheduleRepository;
 import com.gogo.service.LinerOneService;
 import com.gogo.service.LinerScheduleService;
+import com.gogo.service.LinerTwoService;
 @RestController
 public class HelloController {
 	@Autowired
@@ -21,6 +22,8 @@ public class HelloController {
 	
 	@Autowired
 	private LinerOneService linerOneService;
+	@Autowired
+	private LinerTwoService linerTwoService;
 	
 	@GetMapping("/save")
 	public String index() {
@@ -37,11 +40,13 @@ public class HelloController {
 	@ResponseBody
 	public List<LinerSchedule> crawl() {
 		
-		linerOneService.CheckingLiner2(null, null, null);
+		//return linerOneService.CheckingLiner2("02", "KBS", "HHG");
 		
-		//linerOneService.CheckingLiner(null, null, null);
+		return linerTwoService.PAN_SCHEDULE();
 		
-		return linerScheduleRepository.findAll();
+		//linerOneService.CheckingLiner("02", "KBS", "HHG");
+		
+		//return linerScheduleRepository.findAll();
 	}
 	
 	

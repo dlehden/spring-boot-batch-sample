@@ -39,9 +39,9 @@ public class LinerOneService {  //선사 1번 크롤링
 					
                     .data("mode", "R")
                     .data("SEL_YEAR", "2021")
-                    .data("SEL_MONTH", "02")
-                    .data("pol_cd", "KBS")
-                    .data("pod_cd", "JTK")
+                    .data("SEL_MONTH", month)
+                    .data("pol_cd", pol)
+                    .data("pod_cd", pod)
                     .data("searchGbn","1")
                     .data("cargoGbn","C")
                     .get();
@@ -53,14 +53,18 @@ public class LinerOneService {  //선사 1번 크롤링
 		
 		for(Element element : elements) {
 			System.out.println(element.toString().substring(9,108));
+			String[] split_data = element.toString().substring(9,108).split("'");
+			for(int i=0; i < split_data.length; i++) {
+				System.out.println( i + "====== " + split_data[i]);
+			}
 		}
 		
-
 		return scheduleData;
 	}
 	
 	public List<LinerSchedule> CheckingLiner2(String month , String pol, String pod) {
 		String url = "http://korea.djship.co.kr/dj/ui/kr/eservice/sub3_1_0.jsp?PROGRAM_ID=sub3_1";
+		String url_jsoup = "http://korea.djship.co.kr/dj/servlet/kr.eservice.action.sub3_1_Action";
 		WebDriver driver = null;
 		WebElement element = null;
 		
@@ -69,10 +73,11 @@ public class LinerOneService {  //선사 1번 크롤링
 		String text2 = "";
 		List<LinerSchedule> scheduleData = new ArrayList<>();
 		System.out.println("실행");
+	
 		try {
 			
-			//System.setProperty("webdriver.chrome.driver","C:\\crawling\\chromedriver_win32\\chromedriver.exe");
-			System.setProperty("webdriver.chrome.driver","C:\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver","C:\\crawling\\chromedriver_win32\\chromedriver.exe");
+			//System.setProperty("webdriver.chrome.driver","C:\\chromedriver.exe");
 			
 			driver= new ChromeDriver();
 			driver.get(url);
@@ -102,24 +107,71 @@ public class LinerOneService {  //선사 1번 크롤링
 			 element = driver.findElement(By.cssSelector("body > form"));
 			JavascriptExecutor js = (JavascriptExecutor)driver;
 			
-			js.executeScript("javascript:detail('','NBQ1','RG','1031','W','KRPUS','CNTAO','202102060700','','KBCT','','','N','Y')", element );
 			
+			try {
+				doc = Jsoup.connect(url_jsoup)
+						.header("User-Agent","Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/88.0.4324.150 Safari/537.36")
+						.header("Accept","text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.9")
+					    .header("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7")
+					    .header("Content-Type", "application/x-www-form-urlencoded")
+					    .header("Origin", "http://korea.djship.co.kr")
+	                    .header("Referer", "http://korea.djship.co.kr/dj/ui/kr/eservice/sub3_1_1.jsp")
+						
+	                    .data("mode", "R")
+	                    .data("SEL_YEAR", "2021")
+	                    .data("SEL_MONTH", month)
+	                    .data("pol_cd", pol)
+	                    .data("pod_cd", pod)
+	                    .data("searchGbn","1")
+	                    .data("cargoGbn","C")
+	                    .get();
+			}catch(IOException e) {
+				e.printStackTrace();
+			}
+			
+			Elements elements = doc.select("a[href]");
+			
+			
+	  for(Element jsoup_dt : elements) {
+			//System.out.println(jsoup_dt.toString().substring(9,108));
+			js.executeScript(jsoup_dt.toString().substring(9,108).replaceAll("\"",""), element );
+
 			//멘처음 부모 창으로 빠져나온다음
 			//2번째 정보 프레임으로 들어가서 데이터를 읽어온다.
 			driver.switchTo().defaultContent();
-			Thread.sleep(1000);
+			Thread.sleep(500);
 			
 			driver.switchTo().frame("jobFrame1");
 			List<WebElement> info_details = driver.findElements(By.cssSelector("body"));
 			
+			String detail_data=null;
 			for(WebElement info_detail : info_details) {
-				System.out.println(info_detail.getText());
+				detail_data = info_detail.getText();
 			}
-			
-			//System.out.println(driver.getPageSource());
-			
+			String[] split_data = detail_data.split("\\n");
+			String[] split_data_vesselname = jsoup_dt.toString().substring(9,108).split("'");
+//		  System.out.println(split_data[0]);  //마감여주
+//		  System.out.println(split_data[1]); 
+//		  System.out.println(split_data[2]);
+			scheduleData.add(new LinerSchedule(
+				                "2",
+				                "DJSC",
+				                 split_data_vesselname[5]+split_data_vesselname[7]+split_data_vesselname[9],//vessel_name
+				                 pol,
+				                 pod,
+				                 split_data[5].substring(6,22), //ETD
+				                 split_data[4].substring(34,50), //ETA
+				                "remark"));
+   
+			driver.switchTo().defaultContent();
+			Thread.sleep(500);
+			driver.switchTo().frame(driver.findElement(By.cssSelector("body > form > div:nth-child(5) > div:nth-child(3) > table:nth-child(2) > tbody > tr > td:nth-child(2) > table > tbody > tr > td:nth-child(2) > table:nth-child(12) > tbody > tr > td > iframe")));
+
+          } //for
 		}catch(Throwable e) {
 			e.printStackTrace();
+			driver.quit();
+		}finally {
 			driver.quit();
 		}
 		
@@ -127,6 +179,15 @@ public class LinerOneService {  //선사 1번 크롤링
 		
 		//driver.close();
 		
+		return scheduleData;
+	}
+	public List<LinerSchedule>  TestCrawling() {
+
+		List<LinerSchedule> scheduleData = new ArrayList<>();
+		for(int i=0 ; i< 3 ; i ++) {
+		
+		scheduleData.add(new LinerSchedule("2","PAN","202"+Integer.toString(i),"T2","T2","2021-02-03","2021-02-03","remark"));
+		}
 		return scheduleData;
 	}
 }

@@ -25,7 +25,7 @@ public class Writer implements ItemWriter<LinerSchedule>{
 		linerschedule.forEach(liner->{
 			 //System.out.println(liner.getRemark());
 			 System.out.println("writer--------------");
-			// linerScheduleRepository.save(liner);
+			 linerScheduleRepository.save(liner);
 			//System.out.println(linerScheduleRepository.findAll());
 		});
 		

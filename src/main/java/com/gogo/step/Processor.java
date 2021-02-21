@@ -22,7 +22,7 @@ public class Processor implements ItemProcessor<LinerSchedule, LinerSchedule>{
 		Optional<LinerSchedule> LinerProcess  = Optional.ofNullable(linerScheduleRepository.findByLinercodeAndVesselname(
 				data.getLinercode(), data.getVesselname()));
 	
-		//System.out.println("process--------");
+		System.out.println("process--------" + data.getVesselname());
 		LinerProcess.ifPresent(liner-> {
 			System.out.println(liner.getEtd());
 		});
