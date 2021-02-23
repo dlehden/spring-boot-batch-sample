@@ -169,4 +169,13 @@ public class LinerTwoService {  //선사 1번 크롤링
 	        );
 	        HttpsURLConnection.setDefaultSSLSocketFactory(sc.getSocketFactory());
 	    }
+		public List<LinerSchedule>  TestCrawling2() {
+
+			List<LinerSchedule> scheduleData = new ArrayList<>();
+			for(int i=0 ; i< 3 ; i ++) {
+			
+			scheduleData.add(new LinerSchedule("2","DJSC","202"+Integer.toString(i),"T2","T2","2021-02-03","2021-02-03","remark"));
+			}
+			return scheduleData;
+		}
 }

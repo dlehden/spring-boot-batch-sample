@@ -76,8 +76,8 @@ public class LinerOneService {  //선사 1번 크롤링
 	
 		try {
 			
-			System.setProperty("webdriver.chrome.driver","C:\\crawling\\chromedriver_win32\\chromedriver.exe");
-			//System.setProperty("webdriver.chrome.driver","C:\\chromedriver.exe");
+			//System.setProperty("webdriver.chrome.driver","C:\\crawling\\chromedriver_win32\\chromedriver.exe");
+			System.setProperty("webdriver.chrome.driver","C:\\chromedriver.exe");
 			
 			driver= new ChromeDriver();
 			driver.get(url);
@@ -187,6 +187,15 @@ public class LinerOneService {  //선사 1번 크롤링
 		for(int i=0 ; i< 3 ; i ++) {
 		
 		scheduleData.add(new LinerSchedule("2","PAN","202"+Integer.toString(i),"T2","T2","2021-02-03","2021-02-03","remark"));
+		}
+		return scheduleData;
+	}
+	public List<LinerSchedule>  TestCrawling2() {
+
+		List<LinerSchedule> scheduleData = new ArrayList<>();
+		for(int i=0 ; i< 3 ; i ++) {
+		
+		scheduleData.add(new LinerSchedule("2","DJSC","202"+Integer.toString(i),"T2","T2","2021-02-03","2021-02-03","remark"));
 		}
 		return scheduleData;
 	}

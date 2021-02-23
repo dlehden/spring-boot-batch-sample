@@ -33,7 +33,7 @@ public class Reader2 implements ItemReader<LinerSchedule> {
 	public LinerSchedule read() throws Exception{
 		if(count==0) {
 			System.out.println("0일대 한번만 실행");
-			//scheduleData = linerOneService.TestCrawling();
+			//scheduleData = linerService.TestCrawling2();
 			scheduleData = linerService.PAN_SCHEDULE();
 		}
 		//
